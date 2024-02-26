@@ -1,5 +1,6 @@
 {
     "name": "robole/php-cs",
+    "description": "Bundle of php codestyle checkers and fixers for robole.",
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",
