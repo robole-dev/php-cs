@@ -1,0 +1,19 @@
+# IDEs and editors
+/.idea
+.project
+.classpath
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+/vendor
+.well-known
+.~lock*
+*.mwb.bak
+node_modules
+.php-cs-fixer.cache
