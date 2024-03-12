@@ -6,8 +6,8 @@ config files with the needed settings for [robole](https://robole.de).
 These packages are beeing used:
 
 - [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)
-- [PHPStan}(https://phpstan.org/)
-- [Rector}(https://github.com/rectorphp/rector)
+- [PHPStan](https://phpstan.org/)
+- [Rector](https://github.com/rectorphp/rector)
 
 ## Supported PHP Versions
 
