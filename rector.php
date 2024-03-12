@@ -6,6 +6,7 @@ use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
+use Rector\Symfony\CodeQuality\Rector\Class_\EventListenerToEventSubscriberRector;
 use Rector\Symfony\Set\JMSSetList;
 use Rector\Symfony\Set\SensiolabsSetList;
 use Rector\Symfony\Set\SymfonySetList;
@@ -44,4 +45,8 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->rule(ReadOnlyPropertyRector::class);
     $rectorConfig->rule(ReadOnlyClassRector::class);
+
+    $rectorConfig->skip([
+        EventListenerToEventSubscriberRector::class,
+    ]);
 };
