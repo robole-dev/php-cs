@@ -30,5 +30,5 @@ rector.php
 tests/phpstan
 ```
               
-Copy the build targets from the `Makefile`.
+Copy the build targets from the [Makefile](./Makefile).
 
