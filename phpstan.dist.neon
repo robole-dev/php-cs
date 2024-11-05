@@ -18,7 +18,6 @@ parameters:
         - tests/
     excludePaths:
         - php-cs-fixer.dist.php
-    checkGenericClassInNonGenericObjectType: false
     doctrine:
         objectManagerLoader: tests/phpstan/object-manager.php
     symfony:
@@ -27,3 +26,5 @@ parameters:
     # Needed when having php config files
     scanDirectories:
         - var/cache/dev/Symfony/Config
+    ignoreErrors:
+        - identifier: missingType.generics
