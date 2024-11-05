@@ -26,6 +26,9 @@ parameters:
     # Needed when having php config files
     scanDirectories:
         - var/cache/dev/Symfony/Config
+    # @see https://github.com/phpstan/phpstan-strict-rules
+    strictRules:
+        allRules: true
     ignoreErrors:
         - identifier: missingType.generics
         # Ignore checking array value types
