@@ -34,6 +34,13 @@ fix-php-cs-fixer--dry: FORCE
 	vendor/bin/php-cs-fixer fix src --dry-run --verbose
 
 #
+# TWIGCS
+#
+twigcs: FORCE
+	cd $(DIST_DIR)
+	vendor/bin/twigcs --config .twig_cs.dist.php
+
+#
 # Checks
 #
 #check-phpcs: FORCE
