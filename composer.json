@@ -9,7 +9,6 @@
     "require": {
         "php": "^8.2",
         "friendsofphp/php-cs-fixer": "^3.49",
-        "friendsoftwig/twigcs": "^6.5",
         "jangregor/phpstan-prophecy": "^1.0",
         "phpstan/phpstan": "^1.10",
         "rector/rector": "^1.2",
