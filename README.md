@@ -8,6 +8,7 @@ These packages are beeing used:
 - [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer)
 - [PHPStan](https://phpstan.org/)
 - [Rector](https://github.com/rectorphp/rector)
+- [Twigcs](https://github.com/friendsoftwig/twigcs)
 
 ## Supported PHP Versions
 
