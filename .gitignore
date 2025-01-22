@@ -17,3 +17,4 @@
 *.mwb.bak
 node_modules
 .php-cs-fixer.cache
+.twig-cs-fixer.cache

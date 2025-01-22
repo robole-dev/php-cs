@@ -36,9 +36,13 @@ fix-php-cs-fixer--dry: FORCE
 #
 # TWIGCS
 #
-twigcs: FORCE
+fix-twig-cs-fixer: FORCE
 	cd $(DIST_DIR)
-	vendor/bin/twigcs --config .twig_cs.dist.php
+	vendor/bin/twig-cs-fixer lint --config .twig-cs-fixer.dist.php
+
+fix-twig-cs-fixer--dry: FORCE
+	#cd $(DIST_DIR)
+	vendor/bin/twig-cs-fixer lint --fix --config .twig-cs-fixer.dist.php
 
 #
 # Checks
