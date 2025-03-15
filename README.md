@@ -35,10 +35,25 @@ Copy the [Taskfile.cs.yaml](./Taskfile.cs.yaml) to your project.
                                                        
 Add these lines to your `Taskfile.dist.yaml`:
 
-```
+```yaml
 includes:
     cs: "./Taskfile.cs.yaml"
 ```
 
 Add the task `cs:setup` to your main `setup` task in your `Taskfile.dist.yaml`.
+
+Example:
+
+```yaml
+tasks:
+    setup:
+        desc: "Setup project"
+        cmds:
+            -   task: setup-proxy
+            -   task: setup-backend
+            -   task: setup-entities
+            -   task: setup-frontend
+            -   task: setup-security
+            -   task: cs:setup-cs
+```
 
