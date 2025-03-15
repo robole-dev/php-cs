@@ -15,10 +15,19 @@ tasks:
     #
     # SETUP
     #
+    setup:
+        desc: "Setups all code style related things."
+        cmds:
+            -   task: setup-grumphp
+
     setup-grumphp:
         desc: "Setup grumphp as git hook to run grump on every git commit."
-        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.PHP}} ./vendor/bin/grumphp git:init"
+
+    deinit-grumphp:
+        desc: "Deinits grumphp and removes git hook."
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: "{{.PHP}} ./vendor/bin/grumphp git:deinit"
 
     #
     # UPDATE

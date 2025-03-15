@@ -55,6 +55,6 @@ tasks:
             -   task: setup-entities
             -   task: setup-frontend
             -   task: setup-security
-            -   task: cs:setup-cs
+            -   task: cs:setup
 ```
 

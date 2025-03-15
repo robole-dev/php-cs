@@ -1,4 +1,5 @@
 includes:
+    # You have to disable these imports in sulu projects
     - vendor/jangregor/phpstan-prophecy/extension.neon
     - vendor/phpstan/phpstan-symfony/extension.neon
     - vendor/phpstan/phpstan-doctrine/extension.neon
