@@ -1,0 +1,110 @@
+version: "3"
+
+vars:
+    DIR_WEBSITE: "{{.TASKFILE_DIR}}/dist/website"
+    PHP: php -d memory_limit=-1
+
+env:
+    # This options is needed for php-cs-fixer and php 8.4 compatibility.
+    # Delete this if php-cs-fixer is updated.
+    # Issue: https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/milestone/173
+    PHP_CS_FIXER_IGNORE_ENV: 1
+
+tasks:
+
+    #
+    # SETUP
+    #
+    setup-grumphp:
+        desc: "Setup grumphp as git hook to run grump on every git commit."
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: "{{.PHP}} ./vendor/bin/grumphp git:init"
+
+    #
+    # UPDATE
+    #
+    update:
+        cmds:
+            -   task: update-backend
+
+    update-backend:
+        dir: "{{.DIR_WEBSITE}}"
+        cmds:
+            - "composer update"
+
+    #
+    # CHECK
+    #
+    check:
+        dir: "{{.DIR_WEBSITE}}"
+        cmds:
+            - vendor/bin/grumphp run
+
+    check-fix:
+        dir: "{{.DIR_WEBSITE}}"
+        cmds:
+            -   task: fix-php-cs-fixer
+            -   task: fix-twig
+            - vendor/bin/grumphp run
+
+    #
+    # FIX - Rector
+    #
+    fix-rector:
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/rector process
+
+    fix-rector--dry:
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/rector process --dry-run
+
+    fix-rector-list-rules:
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/rector process list-rules
+
+    fix-rector-cc:
+        dir: "{{.DIR_WEBSITE}}"
+        preconditions:
+            -   sh: "[ -f ./vendor/bin/rector ]"
+                msg: "Please run in APP_ENV=dev mode and run setup"
+        cmd: vendor/bin/rector process --dry-run --clear-cache
+
+    #
+    # FIX - PHP-CS-Fixer
+    #
+    fix-php-cs-fixer:
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/php-cs-fixer fix src
+
+    fix-php-cs-fixer--dry:
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/php-cs-fixer fix src --dry-run --verbose
+
+    #
+    # FIX - phpcbf
+    #
+    fix-phpcbf:
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/phpcbf
+
+    #
+    # FIX - PHPStan
+    #
+    fix-phpstan:
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/phpstan analyse
+
+    fix-phpstan-cc:
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/phpstan clear-result-cache
+
+    #
+    # FIX - Twig-CS-Fixer
+    #
+    fix-twig:
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/twig-cs-fixer lint --fix
+
+    fix-twig--dry:
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/twig-cs-fixer lint

@@ -12,8 +12,8 @@ These packages are beeing used:
 
 ## Supported PHP Versions
 
-- PHP 8.2
 - PHP 8.3
+- PHP 8.4
 
 ## Installation
                                                  
@@ -30,6 +30,15 @@ phpstan.dist.neon
 rector.php
 tests/phpstan
 ```
-              
-Copy the build targets from the [Makefile](./Makefile).
+               
+Copy the [Taskfile.cs.yaml](./Taskfile.cs.yaml) to your project.
+                                                       
+Add these lines to your `Taskfile.dist.yaml`:
+
+```
+includes:
+    cs: "./Taskfile.cs.yaml"
+```
+
+Add the task `cs:setup` to your main `setup` task in your `Taskfile.dist.yaml`.
 
