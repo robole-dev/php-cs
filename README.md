@@ -28,6 +28,7 @@ Copy (or merge/overwrite if already existing) the following config files and dir
 .php-cs-fixer.dist.php
 phpstan.dist.neon
 rector.php
+grumphp.yml
 tests/phpstan
 ```
                
