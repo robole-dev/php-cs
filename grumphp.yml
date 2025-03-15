@@ -1,0 +1,39 @@
+grumphp:
+    # This options is needed for php-cs-fixer and php 8.4 compatibility.
+    # Delete this if php-cs-fixer is updated.
+    # Issue: https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/milestone/173
+    git_hook_variables:
+        ENV:
+            PHP_CS_FIXER_IGNORE_ENV: 1
+    parallel:
+        enabled: true
+        max_workers: 32
+    tasks:
+        phpstan: null
+        phpcsfixer:
+            config: ".php-cs-fixer.dist.php"
+            verbose: true
+            diff: false
+            triggered_by: ["php"]
+        twigcsfixer:
+            #paths: [ ]
+            #level: ~
+            config: ".twig-cs-fixer.dist.php"
+            report: 'text'
+            #no-cache: false
+            #verbose: false
+        yamllint:
+            whitelist_patterns: []
+            ignore_patterns: []
+            object_support: false
+            exception_on_invalid_type: false
+            parse_constant: false
+            parse_custom_tags: false
+        xmllint:
+            ignore_patterns: [ ]
+            load_from_net: false
+            x_include: false
+            dtd_validation: false
+            scheme_validation: false
+            triggered_by: [ 'xml' ]
+
