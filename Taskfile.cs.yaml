@@ -22,12 +22,13 @@ tasks:
 
     setup-grumphp:
         desc: "Setup grumphp as git hook to run grump on every git commit."
-        cmd: "{{.PHP}} ./vendor/bin/grumphp git:init"
+        dir: "{{.DIR_WEBSITE}}"
+        cmd: vendor/bin/grumphp git:init
 
     deinit-grumphp:
         desc: "Deinits grumphp and removes git hook."
         dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.PHP}} ./vendor/bin/grumphp git:deinit"
+        cmd: vendor/bin/grumphp git:deinit
 
     #
     # UPDATE
