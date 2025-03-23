@@ -1,5 +1,7 @@
 <?php
 
+use PhpCsFixer\Runner\Parallel\ParallelConfig;
+
 $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__ . "/src")
     ->exclude([
@@ -8,9 +10,14 @@ $finder = (new PhpCsFixer\Finder())
     ]);
 
 return (new PhpCsFixer\Config())
+    ->setParallelConfig(
+        new ParallelConfig(
+            maxProcesses: 16,
+        ),
+    )
     ->setRules([
         '@Symfony'                    => true,
-        '@PHP82Migration'             => true,
+        '@PHP83Migration'             => true,
         'class_attributes_separation' => [
             'elements' => [
                 'const'        => 'none',
