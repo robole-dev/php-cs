@@ -9,7 +9,12 @@ grumphp:
         enabled: true
         max_workers: 32
     tasks:
-        phpstan: null
+        phpstan:
+            configuration: phpstan.dist.neon
+            use_grumphp_paths: true
+            triggered_by: [ 'php' ]
+            ignore_patterns:
+                - 'tests/bootstrap.php'
         phpcsfixer:
             config: ".php-cs-fixer.dist.php"
             verbose: true
