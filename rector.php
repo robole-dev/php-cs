@@ -17,61 +17,65 @@ use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 
-return RectorConfig::configure()
-                   ->withPaths([
-                       __DIR__ . '/src',
-                       __DIR__ . '/tests',
-                   ])
-                   ->withRootFiles()
-                   ->withPHPStanConfigs([
-                       __DIR__ . '/phpstan.dist.neon',
-                       // rector does not load phpstan extension automatically so require them manually here:
-                       //                       __DIR__ . '/vendor/phpstan/phpstan-doctrine/extension.neon',
-                       //                       __DIR__ . '/vendor/phpstan/phpstan-symfony/extension.neon',
-                   ])
-                   ->withImportNames(
-                       importShortClasses: false,
-                   )
-                   ->withPreparedSets(
-                       codeQuality: true,
-                       codingStyle: true,
-                       strictBooleans: true,
-                       phpunitCodeQuality: true,
-                       doctrineCodeQuality: true,
-                   )
-                   ->withPhpSets(
-                       php84: true,
-                   )
-                   ->withSymfonyContainerXml(__DIR__ . '/var/cache/website/dev/App_KernelDevDebugContainer.xml')
-                   ->withSymfonyContainerPhp(__DIR__ . '/tests/rector/symfony-container.php')
-                   ->withComposerBased(
-                       twig: true,
-                       doctrine: true,
-                       phpunit: true,
-                       symfony: true,
-                   )
-                   ->withSets([
-                       DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
-                       DoctrineSetList::DOCTRINE_CODE_QUALITY,
-                   ])
-                   ->withSets([
-                       SetList::DEAD_CODE,
-                       SetList::CODE_QUALITY,
-                       SetList::PHP_84,
-                   ])
-                   ->withSkip([
-                       SimplifyEmptyCheckOnEmptyArrayRector::class,
-                       SimplifyEmptyArrayCheckRector::class,
-                       FlipTypeControlToUseExclusiveTypeRector::class,
-                       DisallowedEmptyRuleFixerRector::class,
-                       IssetOnPropertyObjectToPropertyExistsRector::class,
-                       ExplicitBoolCompareRector::class,
-                       CombineIfRector::class,
-                       NewlineAfterStatementRector::class,
-                       RepeatedOrEqualToInArrayRector::class,
-                       EncapsedStringsToSprintfRector::class,
-                       BooleanInBooleanNotRuleFixerRector::class,
-                   ])
+return RectorConfig
+    ::configure()
+    ->withPaths([
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
+    ])
+    ->withRootFiles()
+    ->withPHPStanConfigs([
+        __DIR__ . '/phpstan.dist.neon',
+        // rector does not load phpstan extension automatically so require them manually here:
+        //                       __DIR__ . '/vendor/phpstan/phpstan-doctrine/extension.neon',
+        //                       __DIR__ . '/vendor/phpstan/phpstan-symfony/extension.neon',
+    ])
+    ->withImportNames(
+        importShortClasses: false,
+    )
+    ->withPreparedSets(
+        codeQuality: true,
+        codingStyle: true,
+        strictBooleans: true,
+        phpunitCodeQuality: true,
+        doctrineCodeQuality: true,
+    )
+    ->withPhpSets(
+        php84: true,
+    )
+    ->withSymfonyContainerPhp(__DIR__ . '/tests/rector/symfony-container.php')
+    // For SULU
+// ->withSymfonyContainerXml(__DIR__ . '/var/cache/website/dev/App_KernelDevDebugContainer.xml')
+    // For Symfony
+    ->withSymfonyContainerXml(__DIR__ . '/var/cache/dev/App_KernelDevDebugContainer.xml')
+    ->withComposerBased(
+        twig: true,
+        doctrine: true,
+        phpunit: true,
+        symfony: true,
+    )
+    ->withSets([
+        DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
+        DoctrineSetList::DOCTRINE_CODE_QUALITY,
+    ])
+    ->withSets([
+        SetList::DEAD_CODE,
+        SetList::CODE_QUALITY,
+        SetList::PHP_84,
+    ])
+    ->withSkip([
+        SimplifyEmptyCheckOnEmptyArrayRector::class,
+        SimplifyEmptyArrayCheckRector::class,
+        FlipTypeControlToUseExclusiveTypeRector::class,
+        DisallowedEmptyRuleFixerRector::class,
+        IssetOnPropertyObjectToPropertyExistsRector::class,
+        ExplicitBoolCompareRector::class,
+        CombineIfRector::class,
+        NewlineAfterStatementRector::class,
+        RepeatedOrEqualToInArrayRector::class,
+        EncapsedStringsToSprintfRector::class,
+        BooleanInBooleanNotRuleFixerRector::class,
+    ])
     //                   ->withSets([
 //                       // activate when doing updates:
 //                       // SymfonyLevelSetList::UP_TO_SYMFONY_63,
@@ -82,4 +86,4 @@ return RectorConfig::configure()
 //                       // activate for updates when doing updates:
 //                       // SuluLevelSetList::UP_TO_SULU_25,
 //                   ])
-;
+    ;
