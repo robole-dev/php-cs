@@ -5,7 +5,7 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "version": "0.7.1",
+    "version": "0.7.2",
     "require": {
         "php": "^8.4",
         "friendsofphp/php-cs-fixer": "^v3.88",

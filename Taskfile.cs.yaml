@@ -10,12 +10,6 @@ vars:
     DIR_WEBSITE: '{{.DIR_WEBSITE | default (env "DIR_WEBSITE") | default (print .TASKFILE_DIR "/dist/website") | clean}}'
     PHP: php -d memory_limit=-1
 
-env:
-    # This options is needed for php-cs-fixer and php 8.4 compatibility.
-    # Delete this if php-cs-fixer is updated.
-    # Issue: https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/milestone/173
-    PHP_CS_FIXER_IGNORE_ENV: 1
-
 tasks:
 
     #
@@ -40,11 +34,14 @@ tasks:
     #
     check:
         desc: Runs all checks configured in grumphp config
+        dir: "{{.DIR_WEBSITE}}"
         cmds:
+            - pwd
             - "{{.DIR_WEBSITE}}/vendor/bin/grumphp run"
 
     fix:
         desc: Tries to fix everything and runs grumphp afterwards
+        dir: "{{.DIR_WEBSITE}}"
         cmds:
             -   task: php-cs-fixer
             -   task: twig
@@ -55,18 +52,22 @@ tasks:
     #
     rector:
         desc: Runs rector
+        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.DIR_WEBSITE}}/vendor/bin/rector process"
 
     rector--dry:
         desc: Runs rector in dry mode
+        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.DIR_WEBSITE}}/vendor/bin/rector process --dry-run"
 
     rector-list-rules:
         desc: List all configures rules for rector
+        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.DIR_WEBSITE}}/vendor/bin/rector process list-rules"
 
     rector-cc:
         desc: Clears rector cache
+        dir: "{{.DIR_WEBSITE}}"
         preconditions:
             -   sh: "[ -f {{.DIR_WEBSITE}}/vendor/bin/rector ]"
                 msg: "Please run in APP_ENV=dev mode and run setup"
@@ -77,10 +78,12 @@ tasks:
     #
     php-cs-fixer:
         desc: Runs php-cs-fixer and fix automatically
+        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.DIR_WEBSITE}}/vendor/bin/php-cs-fixer fix"
 
     php-cs-fixer--dry:
         desc: Runs php-cs-fixer in dry mode
+        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.DIR_WEBSITE}}/vendor/bin/php-cs-fixer fix --dry-run --verbose"
 
     #
@@ -88,6 +91,7 @@ tasks:
     #
     phpcbf:
         desc: Runs phpcbf
+        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.DIR_WEBSITE}}/vendor/bin/phpcbf"
 
     #
@@ -95,10 +99,12 @@ tasks:
     #
     phpstan:
         desc: Runs PHPStan
+        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.DIR_WEBSITE}}/vendor/bin/phpstan analyse"
 
     phpstan-cc:
         desc: Clears PHPStan cache
+        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.DIR_WEBSITE}}/vendor/bin/phpstan clear-result-cache"
 
     #
@@ -106,8 +112,10 @@ tasks:
     #
     twig:
         desc: Runs twig-cs-fixer and fix automatically
+        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.DIR_WEBSITE}}/vendor/bin/twig-cs-fixer lint --fix"
 
     twig--dry:
         desc: Runs twig-cs-fixer in dry mode
+        dir: "{{.DIR_WEBSITE}}"
         cmd: "{{.DIR_WEBSITE}}/vendor/bin/twig-cs-fixer lint"
