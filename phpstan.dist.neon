@@ -1,5 +1,4 @@
 includes:
-    # You have to disable these imports in sulu projects
     - vendor/jangregor/phpstan-prophecy/extension.neon
     - vendor/phpstan/phpstan-symfony/extension.neon
     - vendor/phpstan/phpstan-doctrine/extension.neon
@@ -20,23 +19,38 @@ parameters:
     excludePaths:
         - .php-cs-fixer.dist.php
         - tests/bootstrap.php
-    phpVersion: 80300
+    phpVersion: 80400
     parallel:
         maximumNumberOfProcesses: 16
+
+    #
+    # Needed for doctrine projects
+    #
     doctrine:
         objectManagerLoader: tests/phpstan/object-manager.php
+
+    #
+    # Needed for symfony projects
+    #
     symfony:
         containerXmlPath: %currentWorkingDirectory%/var/cache/dev/App_KernelDevDebugContainer.xml
         consoleApplicationLoader: tests/phpstan/console-application.php
+
+    #
     # Needed when having php config files
+    #
     scanDirectories:
         - var/cache/dev/Symfony/Config
+
     # @see https://github.com/phpstan/phpstan-strict-rules
     strictRules:
         allRules: true
+#        allRules: false
+#        disallowedLooseComparison: false
+    treatPhpDocTypesAsCertain: false
     ignoreErrors:
+        - identifier: doctrine.associationType
+        - identifier: doctrine.columnType
+        - identifier: missingType.iterableValue
+        - identifier: trait.unused
         - identifier: missingType.generics
-        # Ignore checking array value types
-        - "#Method [a-zA-Z0-9\\_\\\\:\\(\\)]+ has parameter \\$[a-zA-Z0-9_]+ with no value type specified in iterable type array#"
-        - "#Method [a-zA-Z0-9\\_\\\\:\\(\\)]+ return type has no value type specified in iterable type array#"
-        - "#Property [a-zA-Z0-9\\$\\_\\\\:\\(\\)]+ type has no value type specified in iterable type array#"

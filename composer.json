@@ -5,11 +5,11 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "version": "0.6.1",
+    "version": "0.7.0",
     "require": {
-        "php": "^8.3",
-        "friendsofphp/php-cs-fixer": "^3.49",
-        "jangregor/phpstan-prophecy": "^2.1",
+        "php": "^8.4",
+        "friendsofphp/php-cs-fixer": "^v3.88",
+        "jangregor/phpstan-prophecy": "^2.2",
         "phpro/grumphp-shim": "^2.11",
         "phpstan/phpstan": "^2.1",
         "phpstan/phpstan-doctrine": "^2.0",
@@ -17,8 +17,8 @@
         "phpstan/phpstan-strict-rules": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",
         "phpstan/phpstan-webmozart-assert": "^2.0",
-        "rector/rector": "^2.0",
-        "vincentlanglet/twig-cs-fixer": "^3.5"
+        "rector/rector": "^2.2",
+        "vincentlanglet/twig-cs-fixer": "^3.10"
     },
     "config": {
         "optimize-autoloader": true,

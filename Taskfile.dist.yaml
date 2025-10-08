@@ -1,0 +1,25 @@
+version: "3"
+
+includes:
+    cs:
+        taskfile: ./Taskfile.cs.yaml
+
+env:
+    # Global environment variable for all includes and subtasks
+    DIR_WEBSITE: "{{.TASKFILE_DIR}}"
+
+vars:
+    PHP: "php -d memory_limit=-1"
+    PHP_COMPOSER: "composer"
+    PHP_CONSOLE: "{{.PHP}} bin/console"
+    DIR_WEBSITE: "$DIR_WEBSITE"
+
+tasks:
+    update:
+        cmds:
+            - "{{.PHP_COMPOSER}} update"
+
+    setup:
+        desc: "Setup project"
+        cmds:
+            - "{{.PHP_COMPOSER}} install"

@@ -12,8 +12,7 @@ These packages are beeing used:
 
 ## Supported PHP Versions
 
-- PHP 8.3
-- PHP 8.4
+- PHP 8.4+
 
 ## Installation
                                                  

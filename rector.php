@@ -3,76 +3,83 @@
 declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\BooleanAnd\SimplifyEmptyArrayCheckRector;
+use Rector\CodeQuality\Rector\BooleanOr\RepeatedOrEqualToInArrayRector;
 use Rector\CodeQuality\Rector\Empty_\SimplifyEmptyCheckOnEmptyArrayRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
 use Rector\CodeQuality\Rector\If_\CombineIfRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
+use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
+use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
-use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
-use Rector\Php82\Rector\Class_\ReadOnlyClassRector;
 use Rector\Set\ValueObject\SetList;
+use Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
-use Rector\Symfony\CodeQuality\Rector\Class_\EventListenerToEventSubscriberRector;
-use Rector\Symfony\CodeQuality\Rector\Class_\InlineClassRoutePrefixRector;
-use Rector\Symfony\Set\SymfonySetList;
 
-return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->paths([
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
-    ]);
-
-    $rectorConfig->phpstanConfig(__DIR__ . '/phpstan.dist.neon');
-    // use this for Symfony projects
-    $rectorConfig->symfonyContainerXml(__DIR__ . '/var/cache/dev/App_KernelDevDebugContainer.xml');
-    // use this for Sulu projects
-    // $rectorConfig->symfonyContainerXml(__DIR__ . '/var/cache/website/dev/App_KernelDevDebugContainer.xml');
-
-    // basic rules
-    $rectorConfig->importNames();
-    $rectorConfig->importShortClasses();
-
-    // symfony rules
-    $rectorConfig->sets([
-        SymfonySetList::SYMFONY_72,
-        SymfonySetList::SYMFONY_CODE_QUALITY,
-        SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
-    ]);
-
-    // bundles
-//    $rectorConfig->sets([
-//        JMSSetList::ANNOTATIONS_TO_ATTRIBUTES,
-//        SensiolabsSetList::ANNOTATIONS_TO_ATTRIBUTES,
-//    ]);
-
-    // doctrine rules
-    $rectorConfig->sets([
-        DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
-        DoctrineSetList::DOCTRINE_CODE_QUALITY,
-    ]);
-
-    $rectorConfig->sets([
-        SetList::DEAD_CODE,
-        SetList::CODE_QUALITY,
-        SetList::PHP_83,
-    ]);
-
-    $rectorConfig->rule(ReadOnlyPropertyRector::class);
-    $rectorConfig->rule(ReadOnlyClassRector::class);
-
-    $rectorConfig->skip([
-        EventListenerToEventSubscriberRector::class,
-        SimplifyEmptyCheckOnEmptyArrayRector::class,
-        SimplifyEmptyArrayCheckRector::class,
-        FlipTypeControlToUseExclusiveTypeRector::class,
-        DisallowedEmptyRuleFixerRector::class,
-        IssetOnPropertyObjectToPropertyExistsRector::class,
-//        NullableCompareToNullRector::class, Not registered
-        ExplicitBoolCompareRector::class,
-//        WhileNullableToInstanceofRector::class, Not registered
-        CombineIfRector::class,
-        InlineClassRoutePrefixRector::class,
-    ]);
-};
+return RectorConfig::configure()
+                   ->withPaths([
+                       __DIR__ . '/src',
+                       __DIR__ . '/tests',
+                   ])
+                   ->withRootFiles()
+                   ->withPHPStanConfigs([
+                       __DIR__ . '/phpstan.dist.neon',
+                       // rector does not load phpstan extension automatically so require them manually here:
+                       //                       __DIR__ . '/vendor/phpstan/phpstan-doctrine/extension.neon',
+                       //                       __DIR__ . '/vendor/phpstan/phpstan-symfony/extension.neon',
+                   ])
+                   ->withImportNames(
+                       importShortClasses: false,
+                   )
+                   ->withPreparedSets(
+                       codeQuality: true,
+                       codingStyle: true,
+                       strictBooleans: true,
+                       phpunitCodeQuality: true,
+                       doctrineCodeQuality: true,
+                   )
+                   ->withPhpSets(
+                       php84: true,
+                   )
+                   ->withSymfonyContainerXml(__DIR__ . '/var/cache/website/dev/App_KernelDevDebugContainer.xml')
+                   ->withSymfonyContainerPhp(__DIR__ . '/tests/rector/symfony-container.php')
+                   ->withComposerBased(
+                       twig: true,
+                       doctrine: true,
+                       phpunit: true,
+                       symfony: true,
+                   )
+                   ->withSets([
+                       DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
+                       DoctrineSetList::DOCTRINE_CODE_QUALITY,
+                   ])
+                   ->withSets([
+                       SetList::DEAD_CODE,
+                       SetList::CODE_QUALITY,
+                       SetList::PHP_84,
+                   ])
+                   ->withSkip([
+                       SimplifyEmptyCheckOnEmptyArrayRector::class,
+                       SimplifyEmptyArrayCheckRector::class,
+                       FlipTypeControlToUseExclusiveTypeRector::class,
+                       DisallowedEmptyRuleFixerRector::class,
+                       IssetOnPropertyObjectToPropertyExistsRector::class,
+                       ExplicitBoolCompareRector::class,
+                       CombineIfRector::class,
+                       NewlineAfterStatementRector::class,
+                       RepeatedOrEqualToInArrayRector::class,
+                       EncapsedStringsToSprintfRector::class,
+                       BooleanInBooleanNotRuleFixerRector::class,
+                   ])
+    //                   ->withSets([
+//                       // activate when doing updates:
+//                       // SymfonyLevelSetList::UP_TO_SYMFONY_63,
+//                       // activate when doing updates:
+//                       // PHPUnitLevelSetList::UP_TO_PHPUNIT_90,
+//                       // PHPUnitSetList::PHPUNIT_91,
+//                       // sulu rules
+//                       // activate for updates when doing updates:
+//                       // SuluLevelSetList::UP_TO_SULU_25,
+//                   ])
+;
