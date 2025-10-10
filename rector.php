@@ -30,8 +30,9 @@ return RectorConfig
         //                       __DIR__ . '/vendor/phpstan/phpstan-doctrine/extension.neon',
         //                       __DIR__ . '/vendor/phpstan/phpstan-symfony/extension.neon',
     ])
-    // For SULU
+    // Optional?
     ->withSymfonyContainerPhp(__DIR__ . '/tests/rector/symfony-container.php')
+    // For SULU
 // ->withSymfonyContainerXml(__DIR__ . '/var/cache/website/dev/App_KernelDevDebugContainer.xml')
     // For Symfony
     ->withSymfonyContainerXml(__DIR__ . '/var/cache/dev/App_KernelDevDebugContainer.xml')
