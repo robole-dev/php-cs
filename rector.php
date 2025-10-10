@@ -30,6 +30,14 @@ return RectorConfig
         //                       __DIR__ . '/vendor/phpstan/phpstan-doctrine/extension.neon',
         //                       __DIR__ . '/vendor/phpstan/phpstan-symfony/extension.neon',
     ])
+    // For SULU
+    ->withSymfonyContainerPhp(__DIR__ . '/tests/rector/symfony-container.php')
+// ->withSymfonyContainerXml(__DIR__ . '/var/cache/website/dev/App_KernelDevDebugContainer.xml')
+    // For Symfony
+    ->withSymfonyContainerXml(__DIR__ . '/var/cache/dev/App_KernelDevDebugContainer.xml')
+    ->withPhpSets(
+        php84: true,
+    )
     ->withImportNames(
         importShortClasses: false,
     )
@@ -40,14 +48,6 @@ return RectorConfig
         phpunitCodeQuality: true,
         doctrineCodeQuality: true,
     )
-    ->withPhpSets(
-        php84: true,
-    )
-    ->withSymfonyContainerPhp(__DIR__ . '/tests/rector/symfony-container.php')
-    // For SULU
-// ->withSymfonyContainerXml(__DIR__ . '/var/cache/website/dev/App_KernelDevDebugContainer.xml')
-    // For Symfony
-    ->withSymfonyContainerXml(__DIR__ . '/var/cache/dev/App_KernelDevDebugContainer.xml')
     ->withComposerBased(
         twig: true,
         doctrine: true,
