@@ -13,6 +13,7 @@ use Rector\CodingStyle\Rector\Encapsed\EncapsedStringsToSprintfRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
+use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
 use Rector\Set\ValueObject\SetList;
 use Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
@@ -58,11 +59,12 @@ return RectorConfig
     ->withSets([
         DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
-    ])
-    ->withSets([
         SetList::DEAD_CODE,
         SetList::CODE_QUALITY,
         SetList::PHP_84,
+    ])
+    ->withRules([
+        PreferPHPUnitSelfCallRector::class,
     ])
     ->withSkip([
         SimplifyEmptyCheckOnEmptyArrayRector::class,
