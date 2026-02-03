@@ -1,14 +1,8 @@
 version: "3"
 
 vars:
-    #
-    # DIR_WEBSITE is resolved in this order:
-    # 1. Task variable (e.g. task cs:test DIR_WEBSITE=...)
-    # 2. Environment variable (e.g. export DIR_WEBSITE=...)
-    # 3. Default to /dist/website relative to this Taskfile
-    #
-    DIR_WEBSITE: '{{.DIR_WEBSITE | default (env "DIR_WEBSITE") | default (print .TASKFILE_DIR "/dist/website") | clean}}'
     PHP: php -d memory_limit=-1
+    DIR_WEBSITE: "{{.TASKFILE_DIR}}/dist/website"
 
 tasks:
 
@@ -19,29 +13,30 @@ tasks:
         desc: "Setups all code style related things."
         cmds:
             -   task: setup-grumphp
-                internal: true
 
     setup-grumphp:
         desc: "Setup grumphp as git hook to run grump on every git commit."
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/grumphp git:init"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/grumphp git:init
 
     deinit-grumphp:
         desc: "Deinits grumphp and removes git hook."
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/grumphp git:deinit"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/grumphp git:deinit
 
     #
     # CHECK
     #
     check:
         desc: Runs all checks configured in grumphp config
-        dir: "{{.DIR_WEBSITE}}"
-        cmds:
-            - pwd
-            - "{{.DIR_WEBSITE}}/vendor/bin/grumphp run"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/grumphp run
 
     fix:
         desc: Tries to fix everything and runs grumphp afterwards
-        dir: "{{.DIR_WEBSITE}}"
         cmds:
             -   task: php-cs-fixer
             -   task: twig
@@ -52,70 +47,80 @@ tasks:
     #
     rector:
         desc: Runs rector
-        dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/rector process"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/rector process
 
     rector--dry:
         desc: Runs rector in dry mode
-        dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/rector process --dry-run"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/rector process --dry-run
 
     rector-list-rules:
         desc: List all configures rules for rector
-        dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/rector process list-rules"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/rector process list-rules
 
     rector-cc:
         desc: Clears rector cache
         dir: "{{.DIR_WEBSITE}}"
         preconditions:
-            -   sh: "[ -f {{.DIR_WEBSITE}}/vendor/bin/rector ]"
+            -   sh: "[ -f vendor/bin/rector ]"
                 msg: "Please run in APP_ENV=dev mode and run setup"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/rector process --dry-run --clear-cache"
+        cmd: "vendor/bin/rector process --dry-run --clear-cache"
 
     #
     # FIX - PHP-CS-Fixer
     #
     php-cs-fixer:
         desc: Runs php-cs-fixer and fix automatically
-        dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/php-cs-fixer fix"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/php-cs-fixer fix
 
     php-cs-fixer--dry:
         desc: Runs php-cs-fixer in dry mode
-        dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/php-cs-fixer fix --dry-run --verbose"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/php-cs-fixer fix --dry-run --verbose
 
     #
     # FIX - phpcbf
     #
     phpcbf:
         desc: Runs phpcbf
-        dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/phpcbf"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/phpcbf
 
     #
     # FIX - PHPStan
     #
     phpstan:
         desc: Runs PHPStan
-        dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/phpstan analyse"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/phpstan analyse
 
     phpstan-cc:
         desc: Clears PHPStan cache
-        dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/phpstan clear-result-cache"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/phpstan clear-result-cache
 
     #
     # FIX - Twig-CS-Fixer
     #
     twig:
         desc: Runs twig-cs-fixer and fix automatically
-        dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/twig-cs-fixer lint --fix"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/twig-cs-fixer lint --fix
 
     twig--dry:
         desc: Runs twig-cs-fixer in dry mode
-        dir: "{{.DIR_WEBSITE}}"
-        cmd: "{{.DIR_WEBSITE}}/vendor/bin/twig-cs-fixer lint"
+        cmd: |
+            cd "{{.DIR_WEBSITE}}"
+            vendor/bin/twig-cs-fixer lint
