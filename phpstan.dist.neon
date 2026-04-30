@@ -17,8 +17,12 @@ parameters:
         - src/
         - tests/
     excludePaths:
-        - .php-cs-fixer.dist.php
         - tests/bootstrap.php (?)
+        - tests/rector (?)
+        - tests/phpstan
+        - var/*
+        - deploy.php
+        - config/router.php
     phpVersion: 80400
     parallel:
         maximumNumberOfProcesses: 16
