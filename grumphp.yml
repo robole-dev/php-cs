@@ -1,10 +1,4 @@
 grumphp:
-    # This options is needed for php-cs-fixer and php 8.4 compatibility.
-    # Delete this if php-cs-fixer is updated.
-    # Issue: https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/milestone/173
-    git_hook_variables:
-        ENV:
-            PHP_CS_FIXER_IGNORE_ENV: 1
     parallel:
         enabled: true
         max_workers: 32
