@@ -18,7 +18,7 @@ parameters:
         - tests/
     excludePaths:
         - .php-cs-fixer.dist.php
-        - tests/bootstrap.php
+        - tests/bootstrap.php (?)
     phpVersion: 80400
     parallel:
         maximumNumberOfProcesses: 16
