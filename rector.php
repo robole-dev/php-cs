@@ -15,7 +15,6 @@ use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
 use Rector\Set\ValueObject\SetList;
-use Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 
 return RectorConfig
@@ -77,7 +76,6 @@ return RectorConfig
         NewlineAfterStatementRector::class,
         RepeatedOrEqualToInArrayRector::class,
         EncapsedStringsToSprintfRector::class,
-        BooleanInBooleanNotRuleFixerRector::class,
     ])
     //                   ->withSets([
 //                       // activate when doing updates:
